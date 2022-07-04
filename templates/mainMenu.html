@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block head %}
+<title>Home</title>
+{% endblock %} {% block body %}
+
+</br>
+<h1>Welcome to the app</h1>
+</br>
+
+<main role="main">
+  <div class="jumbotron">
+    
+    <h1>Warehouse management</h1>
+    <p>What would you like to do now?</p>
+
+    <a class="btn btn-primary" href="/materials/new" role="button"
+      >Add new material trade &raquo;
+    </a>
+
+    <a class="btn btn-primary" href="/materials" role="button"
+      >Go to saved trades &raquo;
+    </a>
+    
+  </div>
+</main>
+{% endblock %}

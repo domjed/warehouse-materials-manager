@@ -1,0 +1,100 @@
+{% extends 'base.html' %} Edit material {% block head %} {% endblock %} {% block
+body %}
+
+<div class="row justify-content-center">
+  <div class="col-6">
+    <form action="/materials/edit/{{material.id}}" method="POST">
+      <div class="form-group">
+        <label for="title">
+          <strong><em>Title:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="text"
+          name="titleEdit"
+          id="titleEdit"
+          placeholder="Enter title"
+          value="{{material.title}}"
+          aria-label="Enter title"
+          maxlength="30"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="weight">
+          <strong><em>Weight [kg]:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="text"
+          name="weightEdit"
+          id="weightEdit"
+          placeholder="Enter weight in kilograms"
+          value="{{material.weight}}"
+          aria-label="Enter weight in kilograms"
+          maxlength="10"
+          type="number"
+          pattern="(-)?([1-9]{1}\d*(\.\d{0,3})?|(0(\.\d{0,3})?))$"
+          oninvalid="alert('Value should be a number with no more than three digits after comma (.) decimal separator')"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">
+          <strong><em>Description:</em></strong>
+        </label>
+        <textarea
+          class="form-control"
+          id="descriptionEdit"
+          name="descriptionEdit"
+          rows="4"
+          cols="50"
+          maxlength="200"
+        >{{material.description}}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">
+          <strong><em>Category:</em></strong>
+        </label>
+        <select
+          name="categoryEdit"
+          id="categoryEdit"
+          class="form-select form-select-sm"
+        >
+          {% for iMaterial in range(0, constants.materialsToSelect|length): %}
+          <option value="{{constants.materialsToSelect[iMaterial]}}" 
+          {% if constants.materialsToSelect[iMaterial] == material.category %} selected {%endif%}>
+            {{constants.materialsToSelect[iMaterial]}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="deliveryDate">
+          <strong><em>Delivery date:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="date"
+          name="deliveryDateEdit"
+          id="deliveryDateEdit"
+          placeholder="Enter date"
+          value="{{material.deliveryDate}}"
+          aria-label="Enter date"
+          onkeydown="return false"
+          required
+        />
+      </div>
+
+      <br />
+      <input type="submit" value="Save" class="btn btn-primary" />
+      <a class="btn btn-danger" href="/materials"> Cancel </a>
+    </form>
+
+    {%endblock %}
+  </div>
+</div>

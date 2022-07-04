@@ -1,0 +1,177 @@
+{% extends 'base.html' %} {% block head %}
+<title>Home</title>
+{% endblock %} {% block body %}
+
+<div class="filteringOptions">
+  <form action="/materials" method="POST">
+    <label for="sort">Sort by:</label>
+    <select
+      name="sortingOrder"
+      id="sortingOrder"
+      class="form-select form-select-sm"
+    >
+      {% for iSortingOrder in range(0,
+      constants.selectionParameters.sortingOrderKeys|length): %}
+      <option
+        value="{{constants.selectionParameters.sortingOrderKeys[iSortingOrder]}}"
+      >
+        {{ constants.selectionParameters.sortingOrderTitles[iSortingOrder]}}
+      </option>
+      {% endfor %}
+    </select>
+
+    <br />
+    <label for="filter">Balance filtering:</label>
+    <select
+      name="filterBalance"
+      id="filterBalance"
+      class="form-select form-select-sm"
+    >
+      {% for ifilterBalance in range(0,
+      constants.selectionParameters.filterBalanceKeys|length): %}
+      <option
+        value="{{constants.selectionParameters.filterBalanceKeys[ifilterBalance]}}"
+      >
+        {{ constants.selectionParameters.filterBalanceTitles[ifilterBalance]}}
+      </option>
+      {% endfor %}
+    </select>
+
+    <br />
+    <label for="filter">Show history:</label>
+    <select
+      name="filterHistory"
+      id="filterHistory"
+      class="form-select form-select-sm"
+    >
+      {% for ifilterHistory in range(0,
+      constants.selectionParameters.filterHistoryKeys|length): %}
+      <option
+        value="{{constants.selectionParameters.filterHistoryKeys[ifilterHistory]}}"
+      >
+        {{ constants.selectionParameters.filterHistoryTitles[ifilterHistory]}}
+      </option>
+      {% endfor %}
+    </select>
+
+    <br />
+    <input type="submit" value="Show results" class="btn btn-info" />
+  </form>
+</div>
+
+<div class="summary">
+  <p class="lead">Summary for selected criteria:</p>
+
+  <ul class="list-group">
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <label for="purchasedMaterials">
+        Weight of purchased materials [kg]:
+      </label>
+      <span class="badge badge-light badge-pill">
+        <label for="purchasedMaterials" class="text-success">
+          {{summary["selectedPurchasedMaterials"]}}
+        </label>
+      </span>
+    </li>
+
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <label for="soldMaterials">Weight of sold materials [kg]:</label>
+      <span class="badge badge-light badge-pill">
+        <label for="soldMaterials" class="text-danger">
+          {{summary["selectedSoldMaterials"]}}
+        </label>
+      </span>
+    </li>
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <label for="materialBalanceTitle">Material balance [kg]:</label>
+      <span class="badge badge-light badge-pill">
+        <label for="materialBalanceValue"
+          {% if summary["totalBalance"] > 0 %} class="text-success"> 
+          {% elif summary["totalBalance"] < 0 %} 
+          class="text-danger"> {% endif %}
+          {{summary["totalBalance"]}}
+        </label></span
+      >
+    </li>
+  </ul>
+  <div id="piechart_3d"></div>
+</div>
+
+<table class="table table-striped table-hover">
+  <col />
+  <thead>
+    <tr>
+      {% for iTableTitle in range(0, constants.tableTitles|length): %}
+      <th scope="col">{{constants.tableTitles[iTableTitle]}}</th>
+      {% endfor %}
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <br />
+    {% for material in materials %}
+    <tr>
+      <td id="titleColumn">{{material.title}}</td>
+      <td>{{material.weight}}</td>
+      <td>{{material.category}}</td>
+      <td>
+        {% if material.description|length > 20 %}
+        {{material.description[0:17]}}... {% else %} {{material.description}} {%
+        endif %}
+      </td>
+      <td>{{material.deliveryDate}}</td>
+      <td>
+        {{ material.dateAdded }} at
+        {{'{:02d}'.format(material.timeAdded.hour)}}:{{
+        '{:02d}'.format(material.timeAdded.minute) }}
+      </td>
+      <td>
+        <a class="btn btn-info" href="/materials/view/{{ material.id }}">
+          Details
+        </a>
+        <a class="btn btn-primary" href="/materials/edit/{{ material.id }}">
+          Edit
+        </a>
+        <a class="btn btn-danger" href="/materials/delete/{{ material.id }}">
+          Delete
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<style>
+  .filteringOptions {
+    float: left;
+    margin-top: 50px;
+    margin-left: 100px;
+  }
+
+  .summary {
+    margin-left: 300px;
+    margin-top: 50px;
+    float: left;
+    width: 40%;
+  }
+  #piechart_3d {
+    width: 700px;
+    height: 300px;
+  }
+  #titleColumn {
+    width: 20%;
+  }
+</style>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+  var selectedPurchasedMaterials = '{{summary["selectedPurchasedMaterials"]}}';
+  var selectedSoldMaterials = '{{summary["selectedSoldMaterials"]}}';
+</script>
+{% endblock %}

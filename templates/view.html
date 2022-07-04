@@ -1,0 +1,83 @@
+{% extends 'base.html' %} Edit material {% block head %} {% endblock %} {% block body %}
+<div class="row justify-content-center">
+  <div class="col-6">
+
+    <div class="form-group">
+      <label for="title">
+        <strong><em>Title:</em></strong>
+      </label>
+      <input
+        class="form-control"
+        type="text"
+        name="titleView"
+        id="titleView"
+        value="{{material.title}}"
+        disabled
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="weight">
+        <strong><em>Weight [kg]:</em></strong>
+      </label>
+      <input
+        class="form-control"
+        type="text"
+        name="weightView"
+        id="weightView"
+        value="{{material.weight}}"
+        disabled
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="description">
+        <strong><em>Description:</em></strong>
+      </label>
+      <textarea
+        class="form-control"
+        id="descriptionView"
+        name="descriptionView"
+        rows="4"
+        cols="50"
+        maxlength="200"
+        disabled
+      >{{material.description}}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">
+          <strong><em>Category:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="text"
+          name="categoryView"
+          id="categoryView"
+          value="{{material.category}}"
+          disabled
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="date">
+          <strong><em>Date of purchase:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="date"
+          name="dateView"
+          id="dateView"
+          value="{{material.deliveryDate}}"
+          disabled
+        />
+      </div>
+
+      <br />
+      <a class="btn btn-primary" href="/materials">
+        Return to results
+      </a>
+      {% endblock %}
+    </div>
+  </div>
+</div>

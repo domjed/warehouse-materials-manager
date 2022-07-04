@@ -1,0 +1,94 @@
+{% extends 'base.html' %} New material {% block head %} {% endblock %} {% block
+body %}
+
+<div class="row justify-content-center">
+  <div class="col-6">
+    <form action="/materials/new" method="POST">
+      <div class="form-group">
+        <label for="title"
+          ><strong><em>Title:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Enter title"
+          aria-label="Enter title"
+          maxlength="30"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="weight"
+          ><strong><em>Weight [kg]:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          name="weight"
+          id="weight"
+          placeholder="Enter weight in kilograms"
+          aria-label="Enter weight in kilograms"
+          maxlength="10"
+          pattern="(-)?([1-9]{1}\d*(\.\d{0,3})?|(0(\.\d{0,3})?))$"
+          oninvalid="alert('Provided weight should be a number with no more than three digits after comma (.) decimal separator')"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description"
+          ><strong><em>Description:</em></strong>
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Enter description"
+          rows="4"
+          cols="50"
+          class="form-control"
+          maxlength="200"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category"
+          ><strong><em>Category:</em></strong>
+        </label>
+        <select
+          name="category"
+          id="category"
+          class="form-select form-select-sm"
+        >
+          {% for iMaterial in range(0, constants.materialsToSelect|length): %}
+          <option value="{{constants.materialsToSelect[iMaterial]}}">
+            {{constants.materialsToSelect[iMaterial]}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="date"
+          ><strong><em>Date of delivery:</em></strong>
+        </label>
+        <input
+          class="form-control"
+          value="2023-01-01"
+          type="date"
+          name="deliveryDate"
+          id="deliveryDate"
+          placeholder="Enter date"
+          aria-label="Enter date"
+          onkeydown="return false"
+          required
+        />
+      </div>
+
+      <input type="submit" value="Save" class="btn btn-primary" />
+      <a class="btn btn-danger" href="/"> Cancel </a>
+    </form>
+  </div>
+</div>
+{%endblock %}
